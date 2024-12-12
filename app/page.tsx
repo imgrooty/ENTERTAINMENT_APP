@@ -90,7 +90,7 @@ export default function Home() {
       <h2 className="text-2xl font-bold mt-8 mb-4 text-orange-500">
         {searchResults.length > 0 ? 'Search Results' : 'Trending'}
       </h2>
-      {mediaToDisplay.length > 0 ? (
+      {mediaToDisplay && mediaToDisplay.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {mediaToDisplay.map((item) => (
             <MediaCard
@@ -98,8 +98,8 @@ export default function Home() {
               title={item.title || item.name || 'Unknown Title'}
               year={new Date(item.release_date || item.first_air_date || Date.now()).getFullYear()}
               category={item.media_type === 'movie' ? 'Movie' : 'TV Series'}
-              rating={`${item.vote_average.toFixed(1)}/10`}
-              thumbnail={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+              rating={item.vote_average ? `${item.vote_average.toFixed(1)}/10` : 'N/A'}
+              thumbnail={item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : '/placeholder.svg'}
               isBookmarked={bookmarks.has(item.id)}
               onBookmark={() => toggleBookmark(item.id)}
             />
